@@ -1,84 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Certifications</title>
-  <style>
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f6f9;
-      margin: 0;
-    }
-    header {
-      background: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      padding: 30px;
-    }
-    .card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      transition: transform 0.2s;
-    }
-    .card:hover { transform: translateY(-5px); }
-    .card img { width: 100%; height: auto; display: block; }
-    .card-content { padding: 15px; text-align: center; }
-    .card-content h3 { margin: 0; font-size: 18px; color: #2c3e50; }
-    .card-content p { margin: 5px 0 0; color: #666; font-size: 14px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SANGEETH_K // CERT_ARCHIVE</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #00ff9d; --bg: #010201; --panel: rgba(0, 15, 8, 0.9); --border: rgba(0, 255, 157, 0.3); }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--neon);
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            overflow-x: hidden;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        header {
+            background: var(--panel);
+            border-bottom: 2px solid var(--neon);
+            padding: 40px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 { font-family: 'Orbitron'; letter-spacing: 5px; margin: 0; text-shadow: 0 0 10px var(--neon); }
+        .status { font-size: 0.7rem; margin-top: 10px; opacity: 0.8; }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--neon);
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px var(--neon-dim);
+        }
+
+        /* Scanline Effect on Card */
+        .card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0, 255, 157, 0) 50%, rgba(0, 255, 157, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+            filter: grayscale(100%) brightness(0.7) contrast(1.2);
+            transition: 0.3s;
+        }
+
+        .card:hover img { filter: grayscale(0%) brightness(1); }
+
+        .card-content { padding: 20px; }
+        .card-content h3 { 
+            margin: 0; 
+            font-size: 1rem; 
+            text-transform: uppercase;
+            border-left: 3px solid var(--neon);
+            padding-left: 10px;
+        }
+        .card-content p { 
+            margin: 10px 0 0; 
+            font-size: 0.75rem; 
+            opacity: 0.6;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .loading-text { text-align: center; grid-column: 1/-1; padding: 50px; font-size: 1.2rem; }
+        .blink { animation: blinker 1s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .back-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--neon); color: #000;
+            padding: 10px 20px; text-decoration: none;
+            font-weight: 800; font-size: 0.8rem; z-index: 200;
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1>My Certifications</h1>
-    
-  </header>
+    <header>
+        <div class="status">> DIRECTORY: /ROOT/ASSETS/CERTIFICATIONS</div>
+        <h1>CERT_ARCHIVE</h1>
+        <div class="status">SECURE_ACCESS_GRANTED // <span id="count">00</span> FILES_FOUND</div>
+    </header>
 
-  <div class="gallery" id="certifications"></div>
-
-  <script>
-    async function loadCertificates() {
-      try {
-        const response = await fetch("assets/certifications/certificates.json");
-        const certificates = await response.json();
-
-        // Sort by date (latest first)
-        certificates.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        const container = document.getElementById("certifications");
-
-  certificates.forEach(cert => {
-  const card = document.createElement("a");
-  card.href = `assets/certifications/${cert.file}`;
-  card.target = "_blank"; // open in new tab
-  card.className = "card";
-  card.innerHTML = `
-    <img src="assets/certifications/${cert.file}" alt="${cert.name}">
-    <div class="card-content">
-      <h3>${cert.name}</h3>
-      <p>Date: ${cert.date}</p>
+    <div class="gallery" id="certifications">
+        <div class="loading-text blink">> ACCESSING_DATABASE...</div>
     </div>
-  `;
-  container.appendChild(card);
-});
 
+    <a href="index.html" class="back-btn">RETURN_TO_HUD</a>
 
-      } catch (error) {
-        console.error("Error loading certificates:", error);
-      }
-    }
+    <script>
+        async function loadCertificates() {
+            try {
+                // Fetching the JSON generated by your GitHub Action
+                const response = await fetch("assets/certifications/certificates.json");
+                const certificates = await response.json();
 
-    loadCertificates();
-  </script>
+                // Latest certificates first
+                certificates.sort((a, b) => new Date(b.date) - new Date(a.date));
 
+                const container = document.getElementById("certifications");
+                const countEl = document.getElementById("count");
+                
+                container.innerHTML = ""; // Clear loader
+                countEl.innerText = certificates.length.toString().padStart(2, '0');
+
+                certificates.forEach(cert => {
+                    const card = document.createElement("a");
+                    card.href = `assets/certifications/${cert.file}`;
+                    card.target = "_blank";
+                    card.className = "card";
+                    card.innerHTML = `
+                        <img src="assets/certifications/${cert.file}" alt="${cert.name}">
+                        <div class="card-content">
+                            <h3>${cert.name}</h3>
+                            <p>
+                                <span>[DATE: ${cert.date}]</span>
+                                <span style="color:var(--neon)">FILE_READY</span>
+                            </p>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                document.getElementById("certifications").innerHTML = 
+                `<div class="loading-text" style="color:red">> ERROR: JSON_NOT_FOUND. Check GitHub Actions status.</div>`;
+            }
+        }
+
+        // Tactical Block
+        document.onkeydown = e => { if(e.keyCode==123 || (e.ctrlKey && e.shiftKey && e.keyCode==73)) return false; };
+        
+        loadCertificates();
+    </script>
 </body>
 </html>
