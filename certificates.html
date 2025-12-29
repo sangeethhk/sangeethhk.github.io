@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SANGEETH_K // SECURED_ARCHIVE</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         :root {
             --neon: #00ff9d;
@@ -18,11 +22,13 @@
             color: var(--neon);
             font-family: 'JetBrains Mono', monospace;
             margin: 0;
-            padding-bottom: 50px;
+            padding-bottom: 60px;
             background-image: radial-gradient(var(--border) 1px, transparent 1px);
             background-size: 40px 40px;
+            user-select: none;
         }
 
+        /* Tactical Header */
         header {
             border-bottom: 2px solid var(--neon);
             padding: 40px 20px;
@@ -32,9 +38,10 @@
             clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%);
         }
 
-        h1 { font-family: 'Orbitron'; letter-spacing: 4px; margin: 0; text-shadow: 0 0 12px var(--neon); }
-        .meta-data { font-size: 0.7rem; color: #fff; margin-top: 10px; opacity: 0.7; }
+        .hud-header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .identity h1 { font-family: 'Orbitron'; letter-spacing: 4px; margin: 0; text-shadow: 0 0 12px var(--neon); }
 
+        /* Document Grid */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -61,126 +68,153 @@
             transform: scale(1.02);
         }
 
-        /* Decorative Corners */
-        .cert-box::before {
-            content: ""; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px;
-            border-top: 2px solid var(--neon); border-left: 2px solid var(--neon);
-        }
-
         .img-container {
             width: 100%;
             height: 220px;
             overflow: hidden;
             border-bottom: 1px solid var(--border);
             background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .cert-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            opacity: 0.7;
-            transition: 0.5s;
-            filter: saturate(0.5) contrast(1.1);
+        /* PDF Tactical Icon */
+        .pdf-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
-        .cert-box:hover img { opacity: 1; filter: saturate(1); transform: scale(1.05); }
-
-        .cert-info { padding: 20px; background: rgba(0, 255, 157, 0.02); }
-        .cert-info h3 { 
-            margin: 0; 
-            font-size: 0.9rem; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #fff;
+        .pdf-icon {
+            font-family: 'Orbitron';
+            font-size: 1.8rem;
+            border: 2px solid var(--neon);
+            padding: 10px 20px;
+            box-shadow: 0 0 15px var(--neon);
         }
-        .cert-info .date { 
-            margin-top: 10px; 
-            font-size: 0.7rem; 
-            display: flex; 
-            justify-content: space-between;
+
+        .cert-info { padding: 20px; }
+        .cert-info h3 { margin: 0; font-size: 0.85rem; text-transform: uppercase; color: #fff; }
+
+        /* Footer */
+        .footer-ops {
+            position: fixed; bottom: 0; width: 100%; height: 50px;
+            background: #000; border-top: 2px solid var(--neon);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; font-size: 0.65rem; z-index: 1000;
+        }
+
+        .btn-access {
+            display: inline-block;
+            margin-top: 15px;
+            border: 1px solid var(--neon);
+            padding: 5px 15px;
+            font-size: 0.7rem;
             color: var(--neon);
+            text-transform: uppercase;
         }
-
-        .nav-back {
-            position: fixed; top: 20px; left: 20px;
-            color: var(--neon); text-decoration: none;
-            font-size: 0.7rem; border: 1px solid var(--neon);
-            padding: 5px 10px; background: #000; z-index: 1001;
-        }
-
-        .status-pill {
-            font-size: 0.6rem;
-            background: var(--neon);
-            color: #000;
-            padding: 2px 6px;
-            font-weight: 800;
-        }
-
-        #loading { grid-column: 1/-1; text-align: center; padding: 100px; font-size: 1.5rem; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <a href="index.html" class="nav-back">< [BACK_TO_HUD]</a>
+    <canvas id="neuralCanvas" style="position:fixed; top:0; left:0; z-index:-1; opacity:0.3;"></canvas>
 
     <header>
-        <div class="meta-data">SYSTEM_DIRECTORY: /ROOT/ASSETS/CERTIFICATIONS</div>
-        <h1>CERTIFIED_ARSENAL</h1>
-        <div class="meta-data">SECURE_FILES_INDEXED: <span id="fileCount" style="color:var(--neon)">00</span></div>
+        <div class="hud-header">
+            <div class="identity">
+                <div style="font-size:0.6rem; opacity:0.7;">AUTH_USER: SANGEETH_K</div>
+                <h1>CERTIFIED_ARSENAL</h1>
+                <p style="font-size:0.8rem;">B-TECH CYBER SECURITY // KMCT KOZHIKODE</p>
+            </div>
+            <div style="text-align:right;">
+                <div id="vIP" style="font-size: 1.2rem; font-weight:800;">TRACING...</div>
+                <div style="font-size:0.6rem;">TEL: +91 9400213739</div>
+            </div>
+        </div>
     </header>
 
     <div class="gallery" id="galleryContainer">
-        <div id="loading" class="blink">> INITIALIZING_SCAN...</div>
+        <div style="grid-column: 1/-1; text-align:center; padding:100px;">> SCANNING_PDF_DATABASE...</div>
     </div>
 
+    <footer class="footer-ops">
+        <div>DB_UPLINK: <span id="dbStatus" style="color:yellow">SYNCING</span></div>
+        <div id="clock">00:00:00</div>
+        <div>SANGEETHHK.GITHUB.IO // 2025</div>
+    </footer>
+
     <script>
-        async function fetchCertificates() {
+        const SB_URL = "https://gcpufvbitmgumyelmcln.supabase.co";
+        const SB_KEY = "sb_publishable_WfzjX09mvPUk5rIwupbhtw_KcwE7grB";
+
+        async function fetchDocs() {
             try {
-                // Fetch the JSON generated by your GitHub Action
+                // Fetch the JSON generated by GitHub Actions
                 const response = await fetch("assets/certifications/certificates.json");
                 const data = await response.json();
-
-                // Sort: Newest First
-                data.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-                const container = document.getElementById("galleryContainer");
-                const countDisplay = document.getElementById("fileCount");
                 
-                container.innerHTML = ""; // Clear loader
-                countDisplay.innerText = data.length.toString().padStart(2, '0');
+                const container = document.getElementById("galleryContainer");
+                container.innerHTML = "";
 
                 data.forEach(cert => {
+                    const isPDF = cert.file.toLowerCase().endsWith('.pdf');
                     const box = document.createElement("a");
                     box.href = `assets/certifications/${cert.file}`;
                     box.target = "_blank";
                     box.className = "cert-box";
+                    
+                    // PDF-Specific Logic
+                    const mediaContent = isPDF 
+                        ? `<div class="pdf-placeholder">
+                            <div class="pdf-icon">PDF</div>
+                            <div style="font-size:8px; margin-top:10px; opacity:0.5;">DECRYPTED_DOCUMENT</div>
+                           </div>`
+                        : `<img src="assets/certifications/${cert.file}" style="width:100%; height:100%; object-fit:contain;">`;
+
                     box.innerHTML = `
-                        <div class="img-container">
-                            <img src="assets/certifications/${cert.file}" alt="${cert.name}">
-                        </div>
+                        <div class="img-container">${mediaContent}</div>
                         <div class="cert-info">
-                            <span class="status-pill">DECRYPTED</span>
                             <h3>${cert.name}</h3>
-                            <div class="date">
-                                <span>DATE_STAMP: ${cert.date}</span>
-                                <span>[VIEW_DATA]</span>
+                            <div style="font-size:0.7rem; color:var(--neon); margin-top:10px;">
+                                DATE: ${cert.date}
                             </div>
+                            <div class="btn-access">Open_Secure_File</div>
                         </div>
                     `;
                     container.appendChild(box);
                 });
-
             } catch (err) {
-                document.getElementById("galleryContainer").innerHTML = 
-                `<div id="loading" style="color:red">> ERROR: CERT_JSON_NOT_FOUND. Ensure GitHub Actions has completed.</div>`;
+                document.getElementById("galleryContainer").innerHTML = "> SYNC_ERROR: DATABASE_NOT_FOUND";
             }
         }
 
-        // Lock Source
+        async function initDB() {
+            try {
+                const trace = await fetch('https://ipapi.co/json/');
+                const conn = await trace.json();
+                document.getElementById('vIP').innerText = conn.ip;
+
+                await fetch(`${SB_URL}/rest/v1/access_logs`, {
+                    method: 'POST',
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip: conn.ip, location: conn.city, agent: navigator.userAgent })
+                });
+                document.getElementById('dbStatus').innerText = "STABLE";
+                document.getElementById('dbStatus').style.color = "#00ff9d";
+            } catch(e) { document.getElementById('dbStatus').innerText = "OFFLINE"; }
+        }
+
+        window.onload = () => {
+            initDB();
+            fetchDocs();
+            setInterval(() => document.getElementById('clock').innerText = new Date().toLocaleTimeString(), 1000);
+        };
+
+        // DevTools Protection
         document.onkeydown = e => { if(e.keyCode==123 || (e.ctrlKey && e.shiftKey && e.keyCode==73)) return false; };
-        
-        fetchCertificates();
     </script>
 </body>
 </html>
