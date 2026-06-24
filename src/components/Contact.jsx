@@ -1,10 +1,35 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { socialLinks } from '../data/content'
 
+const FORMSPREE_URL = 'https://formspree.io/f/mqevewjz'
+
 export default function Contact() {
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
+  const [status, setStatus] = useState('idle')
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // form submission logic placeholder
+    setStatus('sending')
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      if (res.ok) {
+        setStatus('sent')
+        setFormData({ name: '', email: '', subject: '', message: '' })
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -46,6 +71,10 @@ export default function Contact() {
                   <label className="block font-mono text-xs text-gray-500 mb-1.5">// NAME</label>
                   <input
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
                     placeholder="Your designation"
                     className="w-full bg-cyber-black/50 border border-cyber-green/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyber-green/40 transition-colors font-mono"
                   />
@@ -54,6 +83,10 @@ export default function Contact() {
                   <label className="block font-mono text-xs text-gray-500 mb-1.5">// UPLINK_ADDR</label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
                     placeholder="your@domain.com"
                     className="w-full bg-cyber-black/50 border border-cyber-green/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyber-green/40 transition-colors font-mono"
                   />
@@ -64,6 +97,10 @@ export default function Contact() {
                 <label className="block font-mono text-xs text-gray-500 mb-1.5">// SUBJECT</label>
                 <input
                   type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
                   placeholder="Transmission subject"
                   className="w-full bg-cyber-black/50 border border-cyber-green/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyber-green/40 transition-colors font-mono"
                 />
@@ -73,6 +110,10 @@ export default function Contact() {
                 <label className="block font-mono text-xs text-gray-500 mb-1.5">// MESSAGE</label>
                 <textarea
                   rows={5}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
                   placeholder="Encrypt your message..."
                   className="w-full bg-cyber-black/50 border border-cyber-green/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyber-green/40 transition-colors font-mono resize-none"
                 />
@@ -80,10 +121,17 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="cyber-button w-full text-sm"
+                disabled={status === 'sending'}
+                className="cyber-button w-full text-sm disabled:opacity-50"
               >
-                [Transmit Message]
+                {status === 'sending' ? '[Transmitting...]' : status === 'sent' ? '[✓ Message Sent]' : '[Transmit Message]'}
               </button>
+              {status === 'sent' && (
+                <p className="text-cyber-green font-mono text-xs text-center">Transmission successful. Expect a response within 24-48 hours.</p>
+              )}
+              {status === 'error' && (
+                <p className="text-red-400 font-mono text-xs text-center">Transmission failed. Try again or reach me directly on Discord/LinkedIn.</p>
+              )}
             </form>
           </motion.div>
 
