@@ -8,6 +8,7 @@ import CoreOperations from './components/CoreOperations'
 import About from './components/About'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import TerminalChatbot from './components/TerminalChatbot'
 import { logVisitor } from './utils/ipLogger'
 import useAntiScreenshot from './hooks/useAntiScreenshot'
 
@@ -29,6 +30,7 @@ export default function App() {
       <About />
       <Contact />
       <Footer />
+      <TerminalChatbot />
     </div>
   )
 }

@@ -196,7 +196,7 @@ export const projects = {
       github: '#',
     },
   ],
-  /*creative: [
+  creative: [
     {
       title: 'Cyber Punk Character',
       desc: 'High-poly 3D character model designed in Blender with custom shaders, PBR textures, and rigging for animation.',
@@ -215,8 +215,8 @@ export const projects = {
       tags: ['GLSL', 'Three.js', 'WebGL', 'React'],
       github: '#',
     },
-  ],*/
- }
+  ],
+}
 
 export const tools = [
   { name: 'Kali Linux', category: 'os' },
@@ -241,6 +241,6 @@ export const tools = [
 
 export const socialLinks = [
   { label: 'GitHub', url: 'https://github.com/sangeethhk', icon: '💻' },
-  { label: 'LinkedIn', url: 'https://linkedin.com/in/sangeethk', icon: '🔗' },
+  { label: 'LinkedIn', url: 'https://linkedin.com/in/sangeethhk', icon: '🔗' },
   { label: 'Email', url: 'mailto:sangeeth6363@gmail.com', icon: '✉️' },
 ]
