@@ -124,7 +124,7 @@ export const achievements = [
     title: 'CYBER KUSTHI',
     result: 'National Finalist',
     date: '2025',
-    description: 'Placed as finalist in Sri Lanka\'s premier national cybersecurity hackathon. Solved complex CTF challenges in cryptography, reverse engineering, and web exploitation.',
+    description: 'Placed as finalist in the premier national cybersecurity hackathon. Solved complex CTF challenges in cryptography, reverse engineering, and web exploitation.',
     icon: '🏆',
     highlight: true,
   },

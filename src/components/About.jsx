@@ -48,17 +48,25 @@ export default function About() {
                 <span className="text-cyber-green font-mono text-sm mt-1">{'>'}</span>
                 <div>
                   <p className="text-gray-300 leading-relaxed mb-4">
-                    Currently pursuing a B.Tech in Cybersecurity with a background in Computer Hardware Engineering. 
-                    I thrive at the intersection of offensive security and creative technology — finding vulnerabilities 
-                    in complex systems by day, crafting interactive 3D experiences by night.
+                    Certified Penetration Tester and Cybersecurity Analyst based in India. Currently pursuing B.Tech in Cybersecurity 
+                    with a background in Computer Hardware Engineering and embedded systems. Specializing in offensive security, 
+                    vulnerability assessment, and penetration testing across web applications, networks, cloud infrastructure, and API endpoints.
                   </p>
                   <p className="text-gray-300 leading-relaxed mb-4">
-                    My workflow bridges two worlds: Kali Linux terminals and Blender viewports. I believe the best 
-                    security engineers are creative problem-solvers, and the best creative technologists understand 
-                    how systems break. This duality defines everything I build.
+                    Active bug bounty hunter on multiple VDP platforms — awarded for critical vulnerability disclosures including 
+                    Remote Code Execution (RCE), SQL injection (SQLi), cross-site scripting (XSS), and Insecure Direct Object 
+                    References (IDOR). Ranked top 10 researcher on private platforms. Experienced in red team operations, 
+                    social engineering, OSINT, threat intelligence, and security operations center (SOC) workflows.
+                  </p>
+                  <p className="text-gray-300 leading-relaxed mb-4">
+                    Certified in Microsoft Azure Security (AZ-500), CISCO CCNA, OT/ICS Security Foundation, and Red Team 
+                    Operations Management (CRTOM). Proficient with Kali Linux, Metasploit, Nmap, Wireshark, Burp Suite, 
+                    Python security tooling, and cloud security best practices. Also experienced in computer hardware engineering, 
+                    IoT security, embedded systems, and SCADA/industrial control system security.
                   </p>
                   <p className="text-gray-300 leading-relaxed">
-                    Whether I'm exploiting a buffer overflow or optimizing a Three.js shader, the mission is the same:
+                    Whether exploiting a buffer overflow, securing a cloud infrastructure, or building interactive 3D experiences 
+                    with Three.js and Blender — the mission remains the same:
                     <span className="text-cyber-green"> push boundaries, break limits, and build better.</span>
                   </p>
                 </div>
