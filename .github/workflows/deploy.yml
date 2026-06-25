@@ -40,11 +40,21 @@ jobs:
         env:
           VITE_DISCORD_WEBHOOK_URL: ${{ secrets.VITE_DISCORD_WEBHOOK_URL }}
 
-      - name: Cleanup old artifacts
+      - name: Cleanup stale artifacts
         run: |
           gh api /repos/${{ github.repository }}/actions/artifacts --paginate \
             --jq '.artifacts[] | select(.name == "github-pages" and .expired == false) | .id' \
             | xargs -I {} gh api -X DELETE /repos/${{ github.repository }}/actions/artifacts/{}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Cancel stale deployments
+        run: |
+          for id in $(gh api /repos/${{ github.repository }}/deployments \
+            --jq '.[] | select(.environment == "github-pages") | .id'); do
+            gh api -X POST /repos/${{ github.repository }}/deployments/$id/statuses \
+              -f state=inactive > /dev/null 2>&1 || true
+          done
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -59,4 +69,4 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
