@@ -10,6 +10,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write
 
 concurrency:
   group: pages
@@ -39,6 +40,14 @@ jobs:
         env:
           VITE_DISCORD_WEBHOOK_URL: ${{ secrets.VITE_DISCORD_WEBHOOK_URL }}
 
+      - name: Cleanup old artifacts
+        run: |
+          gh api /repos/${{ github.repository }}/actions/artifacts --paginate \
+            --jq '.artifacts[] | select(.name == "github-pages" and .expired == false) | .id' \
+            | xargs -I {} gh api -X DELETE /repos/${{ github.repository }}/actions/artifacts/{}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
@@ -46,6 +55,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
+          retention-days: 1
 
       - name: Deploy to GitHub Pages
         id: deployment
