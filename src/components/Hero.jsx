@@ -36,7 +36,7 @@ export default function Hero() {
               <span className="text-white">Sangeeth K</span>
               <br />
               <span className="text-gradient-cyber text-3xl md:text-4xl lg:text-5xl">
-                Cyber Security Analyst & Hardware Engineer
+                Cybersecurity Analyst & Penetration Tester
               </span>
             </h1>
 
