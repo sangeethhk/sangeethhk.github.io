@@ -10,7 +10,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  actions: write
 
 concurrency:
   group: pages
@@ -40,34 +39,15 @@ jobs:
         env:
           VITE_DISCORD_WEBHOOK_URL: ${{ secrets.VITE_DISCORD_WEBHOOK_URL }}
 
-      - name: Cleanup stale artifacts
-        run: |
-          gh api /repos/${{ github.repository }}/actions/artifacts --paginate \
-            --jq '.artifacts[] | select(.name == "github-pages" and .expired == false) | .id' \
-            | xargs -I {} gh api -X DELETE /repos/${{ github.repository }}/actions/artifacts/{}
-        env:
-          GH_TOKEN: ${{ github.token }}
-
-      - name: Cancel stale deployments
-        run: |
-          for id in $(gh api /repos/${{ github.repository }}/deployments \
-            --jq '.[] | select(.environment == "github-pages") | .id'); do
-            gh api -X POST /repos/${{ github.repository }}/deployments/$id/statuses \
-              -f state=inactive > /dev/null 2>&1 || true
-          done
-        env:
-          GH_TOKEN: ${{ github.token }}
-
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: ./dist
-          retention-days: 1
           include-hidden-files: true
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v5.0.0
