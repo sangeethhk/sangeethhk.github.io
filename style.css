@@ -1,0 +1,225 @@
+/* Disable text selection and image dragging globally */
+* {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE/Edge */
+  user-select: none;         /* Standard */
+  -webkit-touch-callout: none;
+}
+
+/* Blur the canvas/content if the user tries to switch tabs, minimize, or take a screenshot workflow */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.protected-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  pointer-events: none;
+  display: none;
+
+
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: #010101;
+  color: #fff;
+}
+
+#main {
+  position: relative;
+  overflow: hidden;
+}
+
+#page {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  background-color: #010101;
+}
+
+#page1, #page2, #page3 {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  background-color: transparent;
+  color: #fff;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+#loop {
+  display: flex;
+  position: absolute;
+  top: 30%;
+  height: 25%;
+  width: 100%;
+  font-size: 80px;
+  white-space: nowrap;
+  z-index: 2;
+  opacity: 0.15;
+}
+
+#loop > h1 {
+  color: #fff;
+  font-weight: 400;
+  animation-name: anim;
+  animation-duration: 15s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+#loop > h1 > span {
+  -webkit-text-stroke: 1.2px #fff;
+  color: transparent;
+  font-weight: 500;
+}
+
+@keyframes anim {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+#nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 8vh;
+  width: 100%;
+  position: fixed;
+  z-index: 99;
+  padding: 0px 40px;
+  background: rgba(1, 1, 1, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+#nav > h3 {
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.resume-btn {
+  padding: 10px 24px;
+  border-radius: 50px;
+  background-color: #fff;
+  color: #000;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.resume-btn:hover {
+  background-color: #00ffc2;
+}
+
+#page > h3 {
+  position: absolute;
+  top: 85%;
+  font-weight: 400;
+  color: #7c7c7c;
+  left: 5%;
+  z-index: 10;
+}
+
+#page1 > #right-text, 
+#page1 > #left-text, 
+#page2 > #text1, 
+#page2 > #text2, 
+#page3 > #text3 {
+  position: absolute;
+  z-index: 99;
+}
+
+#page1 > #right-text {
+  top: 30%;
+  left: 10%;
+}
+
+#page1 > #right-text > h3 {
+  font-weight: 400;
+  color: #00ffc2;
+}
+
+#page1 > #right-text > h1 {
+  line-height: 1.4;
+  font-size: 40px;
+}
+
+#page1 > #left-text {
+  top: 50%;
+  right: 10%;
+  text-align: end;
+}
+
+#page1 > #left-text > h1 {
+  font-size: 40px;
+  line-height: 1.4;
+}
+
+#page1 > #left-text > h3 {
+  color: #00ffc2;
+  font-weight: 400;
+}
+
+#page2 > #text1 {
+  top: 30%;
+  left: 10%;
+}
+
+#page2 > #text1 > h3 {
+  color: #00ffc2;
+  font-weight: 400;
+}
+
+#page2 > #text1 > h1 {
+  font-size: 45px;
+  line-height: 1.4;
+}
+
+#page2 > #text2 {
+  top: 55%;
+  right: 10%;
+  text-align: end;
+}
+
+#page2 > #text2 > p {
+  color: #aaa;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+#page3 > #text3 {
+  top: 40%;
+  left: 10%;
+}
+
+#page3 > #text3 > h3 {
+  color: #00ffc2;
+  font-weight: 400;
+}
+
+#page3 > #text3 > h1 {
+  font-size: 50px;
+  line-height: 1.5;
+}
